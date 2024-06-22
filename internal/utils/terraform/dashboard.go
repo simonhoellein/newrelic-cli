@@ -41,6 +41,7 @@ type DashboardWidgetRawConfiguration struct {
 	Units             DashboardWidgetUnits           `json:"units,omitempty"`
 	Colors            DashboardWidgetColors          `json:"colors,omitempty"`
 	PlatformOptions   DashboardWidgetPlatformOptions `json:"platformOptions,omitempty"`
+	Thresholds		  DashboardWidgetThresholds		 `json:"thresholds,omitempty"`
 }
 
 type DataFormatter struct {
@@ -96,6 +97,15 @@ type DashboardWidgetColorOverrides struct {
 	Color      string `json:"color,omitempty"`
 	SeriesName string `json:"seriesName,omitempty"`
 }
+
+type DashboardWidgetThresholds struct {
+	Name string `json:name,omitempty"`
+	ColumnName string `json:"columnName,omitempty"`
+	From int `json:"from,omitempty"`
+	To int `json:"to,omitempty"`
+	Severity string `json:"severity,omitempty"`
+}
+
 type DashboardWidgetPlatformOptions struct {
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 }
@@ -173,6 +183,15 @@ func GenerateDashboardHCL(resourceLabel string, shiftWidth int, input []byte) (s
 								})
 							}
 						})
+						for _, q := range config.Thresholds {
+							h.WriteBlock("threshold", []string{}, func() {
+								h.WriteStringAttribute("name", q.Name)
+								h.WriteStringAttribute("column_name", q.ColumnName)
+								h.WriteIntAttribute("from", q.From)
+								h.WriteIntAttribute("to", q.To)
+								h.WriteStringAttribute("severity", q.Severity)
+							})
+						}
 
 					})
 				}
