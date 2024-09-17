@@ -98,13 +98,14 @@ type DashboardWidgetColorOverrides struct {
 	SeriesName string `json:"seriesName,omitempty"`
 }
 
-type DashboardWidgetThresholds struct {
-	Name string `json:name,omitempty"`
-	ColumnName string `json:"columnName,omitempty"`
-	From int `json:"from,omitempty"`
-	To int `json:"to,omitempty"`
-	Severity string `json:"severity,omitempty"`
+type DashboardWidgetThresholds []struct {
+    Name       string `json:"name,omitempty"`
+    ColumnName string `json:"columnName,omitempty"`
+    From       int    `json:"from,omitempty"`
+    To         int    `json:"to,omitempty"`
+    Severity   string `json:"severity,omitempty"`
 }
+
 
 type DashboardWidgetPlatformOptions struct {
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
